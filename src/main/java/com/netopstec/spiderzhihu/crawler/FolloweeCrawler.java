@@ -14,6 +14,7 @@ import com.netopstec.spiderzhihu.json.UserInfo;
 import com.netopstec.spiderzhihu.service.IpProxyService;
 import com.netopstec.spiderzhihu.util.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.log4j.Logger;
 import org.seimicrawler.xpath.JXDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -27,6 +28,8 @@ import java.util.List;
 @Slf4j
 @Crawler(name = "user-followee-crawler", useUnrepeated = false, httpTimeOut = 8000)
 public class FolloweeCrawler extends BaseSeimiCrawler{
+
+    private static Logger log = Logger.getLogger(FolloweeCrawler.class.getClass());
 
     @Autowired
     private UserRepository userRepository;
@@ -42,7 +45,7 @@ public class FolloweeCrawler extends BaseSeimiCrawler{
     public String proxy() {
         IpProxy ipProxy = ipProxyService.getActiveProxyIp();
         if (ipProxy != null) {
-            log.debug("本次用的代理是: [{}:{}]", ipProxy.getIp(), ipProxy.getPort());
+            log.debug("本次用的代理是:"+"  "+ipProxy.getIp()+"  "+ipProxy.getPort());
             return ipProxy.getType().toLowerCase() + "://" + ipProxy.getIp() + ":" + ipProxy.getPort();
         }
         log.info("由于没有一个可用的代理IP，因此用的是本机IP。注意可能会被加入黑名单。");
@@ -61,7 +64,7 @@ public class FolloweeCrawler extends BaseSeimiCrawler{
             log.error("要爬取当前用户关注的知乎用户信息，需要传入该知乎用户的url_token信息，否则无法爬取数据...");
             return null;
         }
-        log.info("正在爬取[{}]关注的知乎用户信息...", USER_URL_TOKEN);
+        log.info("正在爬取[{}]关注的知乎用户信息..."+USER_URL_TOKEN);
         return new String[]{
                 HttpConstants.ZHIHU_USER_BASEINFO_URL_PREFIX + USER_URL_TOKEN + "/followees" + HttpConstants.ZHIHU_USER_INFO_SUFFIX + "&limit=" + LIMIT + "&offset=" + OFFSET
         };
@@ -71,7 +74,7 @@ public class FolloweeCrawler extends BaseSeimiCrawler{
     public void start(Response response) {
         User followerUser = userRepository.findByUrlToken(USER_URL_TOKEN);
         if (followerUser == null) {
-            log.error("要预先保存[{}]的用户信息，否则无法保证关联的关注关系", USER_URL_TOKEN);
+            log.error("要预先保存[{}]的用户信息，否则无法保证关联的关注关系"+USER_URL_TOKEN);
             return;
         }
         JXDocument document = response.document();
@@ -93,11 +96,11 @@ public class FolloweeCrawler extends BaseSeimiCrawler{
         userRepository.saveAll(userList);
         Integer hasGetTotal = OFFSET + LIMIT;
         if (hasGetTotal < totals) {
-            log.info("已经爬取的数据条数[{}]，需要爬取的数据条数[{}]，因此还需要爬取下一页的数据", hasGetTotal, totals);
+            log.info("已经爬取的数据条数[{}]，需要爬取的数据条数[{}]，因此还需要爬取下一页的数据  "+hasGetTotal+",  "+totals);
             OFFSET += LIMIT;
             saveNextPageFolloweeInfo();
         } else {
-            log.info("已经爬取完[{}]关注的所有知乎用户的信息...", USER_URL_TOKEN);
+            log.info("已经爬取完[{}]关注的所有知乎用户的信息..."+USER_URL_TOKEN);
         }
     }
 

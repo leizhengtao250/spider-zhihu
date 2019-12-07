@@ -16,6 +16,39 @@ import lombok.ToString;
 public class Education {
     private School school;
     private Major major;
+
+    public School getSchool() {
+        return school;
+    }
+
+    public void setSchool(School school) {
+        this.school = school;
+    }
+
+    public Major getMajor() {
+        return major;
+    }
+
+    public void setMajor(Major major) {
+        this.major = major;
+    }
+
+    public Integer getDiploma() {
+        return diploma;
+    }
+
+    public void setDiploma(Integer diploma) {
+        this.diploma = diploma;
+    }
+
+    public Integer getEntrance_year() {
+        return entrance_year;
+    }
+
+    public void setEntrance_year(Integer entrance_year) {
+        this.entrance_year = entrance_year;
+    }
+
     private Integer diploma;
     private Integer entrance_year;
 }

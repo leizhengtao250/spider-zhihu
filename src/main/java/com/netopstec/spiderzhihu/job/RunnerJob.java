@@ -2,6 +2,8 @@ package com.netopstec.spiderzhihu.job;
 
 import com.netopstec.spiderzhihu.crawler.IpProxyXiCiCrawler;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.log4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -12,7 +14,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class RunnerJob implements CommandLineRunner {
-
+    private static Logger log =Logger.getLogger(RunnerJob.class.getClass());
     @Override
     public void run(String... args){
         log.info("项目启动时，会将西祠网的前10页代理保存进DB");

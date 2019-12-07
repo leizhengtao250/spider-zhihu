@@ -4,7 +4,7 @@ import java.util.BitSet;
 
 /**
  * 布隆过滤器---每个知乎用户有唯一的url_token
- * @author zhenye 2019/7/8
+ * 主要是为了去重
  */
 public class BloomFilter {
 

@@ -19,6 +19,79 @@ import java.util.List;
 public class UserInfo extends Basic{
     private String url_token;
     private Integer gender;
+
+    public String getUrl_token() {
+        return url_token;
+    }
+
+    public void setUrl_token(String url_token) {
+        this.url_token = url_token;
+    }
+
+    public Integer getGender() {
+        return gender;
+    }
+
+    public void setGender(Integer gender) {
+        this.gender = gender;
+    }
+
+    public Integer getAnswer_count() {
+        return answer_count;
+    }
+
+    public void setAnswer_count(Integer answer_count) {
+        this.answer_count = answer_count;
+    }
+
+    public Integer getArticles_count() {
+        return articles_count;
+    }
+
+    public void setArticles_count(Integer articles_count) {
+        this.articles_count = articles_count;
+    }
+
+    public Integer getFollower_count() {
+        return follower_count;
+    }
+
+    public void setFollower_count(Integer follower_count) {
+        this.follower_count = follower_count;
+    }
+
+    public List<Location> getLocations() {
+        return locations;
+    }
+
+    public void setLocations(List<Location> locations) {
+        this.locations = locations;
+    }
+
+    public Business getBusiness() {
+        return business;
+    }
+
+    public void setBusiness(Business business) {
+        this.business = business;
+    }
+
+    public List<Employment> getEmployments() {
+        return employments;
+    }
+
+    public void setEmployments(List<Employment> employments) {
+        this.employments = employments;
+    }
+
+    public List<Education> getEducations() {
+        return educations;
+    }
+
+    public void setEducations(List<Education> educations) {
+        this.educations = educations;
+    }
+
     private Integer answer_count;
     private Integer articles_count;
     private Integer follower_count;

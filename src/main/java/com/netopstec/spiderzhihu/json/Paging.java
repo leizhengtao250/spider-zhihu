@@ -7,7 +7,6 @@ import lombok.ToString;
 
 /**
  * 分页
- * @author zhenye 2019/6/19
  */
 @Getter
 @Setter
@@ -15,4 +14,12 @@ import lombok.ToString;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Paging {
     private Long totals;
+
+    public Long getTotals() {
+        return totals;
+    }
+
+    public void setTotals(Long totals) {
+        this.totals = totals;
+    }
 }

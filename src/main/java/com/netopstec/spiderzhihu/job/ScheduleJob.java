@@ -7,8 +7,10 @@ import com.netopstec.spiderzhihu.domain.IpProxy;
 import com.netopstec.spiderzhihu.domain.IpProxyRepository;
 import com.netopstec.spiderzhihu.util.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.log4j.Logger;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.ScanCursor;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -22,7 +24,7 @@ import java.util.List;
 @Slf4j
 @Component
 public class ScheduleJob {
-
+    private static Logger log = Logger.getLogger(ScheduleJob.class.getClass());
     @Autowired
     private IpProxyRepository ipProxyRepository;
     @Autowired
@@ -33,6 +35,7 @@ public class ScheduleJob {
     /**
      * 每15分钟检测一次DB中所有代理的可用性，会删除DB中不可用(失败3次以上)的代理
      */
+
     @Scheduled(cron = "0 */10 * * * ?")
     public void intervalCheckProxyIpIsActiveInDB () {
         log.info("基于Spring提供的调度任务，测试DB中的代理IP是否可用");

@@ -15,5 +15,22 @@ import java.util.List;
 @ToString
 public class FollowInfo {
     private Paging paging;
+
+    public Paging getPaging() {
+        return paging;
+    }
+
+    public void setPaging(Paging paging) {
+        this.paging = paging;
+    }
+
+    public List<UserInfo> getData() {
+        return data;
+    }
+
+    public void setData(List<UserInfo> data) {
+        this.data = data;
+    }
+
     private List<UserInfo> data;
 }

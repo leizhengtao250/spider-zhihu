@@ -11,6 +11,7 @@ import com.netopstec.spiderzhihu.domain.UserRepository;
 import com.netopstec.spiderzhihu.json.UserInfo;
 import com.netopstec.spiderzhihu.util.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.log4j.Logger;
 import org.seimicrawler.xpath.JXDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -22,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Crawler(name = "user-crawler", httpTimeOut = 5000)
 public class UserCrawler extends BaseSeimiCrawler{
 
+    private static Logger log = Logger.getLogger(UserCrawler.class.getClass());
     @Autowired
     private UserRepository userRepository;
 
@@ -32,7 +34,7 @@ public class UserCrawler extends BaseSeimiCrawler{
 
     @Override
     public void start(Response response) {
-        log.info("正在爬取[{}]用户的基本信息...", USER_URL_TOKEN);
+        log.info("正在爬取[{}]用户的基本信息..."+" "+USER_URL_TOKEN);
         JXDocument document = response.document();
         String zhihuUserInfoJson = document.selN("body").get(0).asElement().text();
         // 用户的简介信息中可能会有双引号，会影响json解析---手动删除简介信息

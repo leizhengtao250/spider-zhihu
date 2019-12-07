@@ -10,6 +10,7 @@ import com.netopstec.spiderzhihu.common.RabbitConstants;
 import com.netopstec.spiderzhihu.domain.IpProxy;
 import com.netopstec.spiderzhihu.service.IpProxyService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.log4j.Logger;
 import org.jsoup.select.Elements;
 import org.seimicrawler.xpath.JXDocument;
 import org.seimicrawler.xpath.JXNode;
@@ -19,11 +20,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * 爬取可免费代理的服务器IP地址的爬虫类
  * 西刺网（https://www.xicidaili.com/wt/）
- * @author zhenye 2019/6/20
+ *
  */
 @Slf4j
 @Crawler(name = "proxy-ip-crawler", useUnrepeated = false)
 public class IpProxyXiCiCrawler extends BaseSeimiCrawler {
+
+    private static Logger log = Logger.getLogger(IpProxyXiCiCrawler.class.getClass());
 
     @Autowired
     private AmqpTemplate rabbitTemplate;
@@ -39,7 +42,7 @@ public class IpProxyXiCiCrawler extends BaseSeimiCrawler {
     public String proxy() {
         IpProxy ipProxy = ipProxyService.getActiveProxyIp();
         if (ipProxy != null) {
-            log.debug("本次用的代理是: [{}:{}]", ipProxy.getIp(), ipProxy.getPort());
+            log.debug("本次用的代理是: "+ipProxy.getIp()+"  "+ipProxy.getPort());
             return ipProxy.getType().toLowerCase() + "://" + ipProxy.getIp() + ":" + ipProxy.getPort();
         }
         log.info("由于没有一个可用的代理IP，因此用的是本机IP。注意可能会被加入黑名单。");
@@ -75,9 +78,10 @@ public class IpProxyXiCiCrawler extends BaseSeimiCrawler {
 
     /**
      * 从西刺网获取更多的可用免费代理
+     * @param pageNum 西刺网代理的当前页数
      */
     public static void getProxyIpFromXiciWebByPageNum(Integer pageNum) {
-        log.info("即将爬取西刺免费代理第{}页的代理IP...", pageNum);
+        log.info("即将爬取西刺免费代理第{}页的代理IP..."+" "+pageNum);
         String url = HttpConstants.XICI_IP_PROXY_URL_PREFIX + pageNum;
         Request request = Request.build(url, "start");
         request.setCrawlerName("proxy-ip-crawler");
