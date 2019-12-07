@@ -11,7 +11,7 @@ import javax.persistence.Id;
 import java.io.Serializable;
 
 /**
- * @author zhenye 2019/6/20
+ * @author zhenye 2019/6/20 为
  */
 @Entity
 @Getter
